@@ -7,8 +7,11 @@ package ec.com.magda.vistas.formularios;
 
 import com.jfoenix.controls.JFXTextField;
 import ec.com.magda.dao.contrato.ICliente;
+import ec.com.magda.dao.contrato.IEmpleado;
 import ec.com.magda.dao.impl.impCliente;
+import ec.com.magda.dao.impl.impEmpleado;
 import ec.com.magda.rnegocio.entidades.Cliente;
+import ec.com.magda.rnegocio.entidades.Empleado;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,39 +38,51 @@ import javafx.stage.Stage;
  *
  * @author alexander
  */
-public class frmCliente {
-    
+public class frmEmpleado {
+
     private JFXTextField tfCedula;
     private JFXTextField tfNombre;
     private JFXTextField tfApellido;
     private JFXTextField tfTelefono;
+    private JFXTextField tfSueldo;
+    private JFXTextField tfDireccion;
     private JFXTextField tfICedula;
     private JFXTextField tfINombre;
     private JFXTextField tfIApellido;
     private JFXTextField tfITelefono;
-    
+    private JFXTextField tfIDireccion;
+    private JFXTextField tfISueldo;
+
     public void formInsertar(AnchorPane root) {
         StackPane fondo = new StackPane();
         {
-            
+
             VBox Contenedor = new VBox(25);
             {
                 tfICedula = new JFXTextField("060405974-4");
                 tfICedula.setPromptText("Cédula");
                 tfICedula.setLabelFloat(true);
-                
+
                 tfINombre = new JFXTextField();
                 tfINombre.setPromptText("Nombres");
                 tfINombre.setLabelFloat(true);
-                
+
                 tfIApellido = new JFXTextField();
                 tfIApellido.setPromptText("Apellidos");
                 tfIApellido.setLabelFloat(true);
-                
+
                 tfITelefono = new JFXTextField();
                 tfITelefono.setPromptText("Teléfono");
                 tfITelefono.setLabelFloat(true);
-                
+
+                tfIDireccion = new JFXTextField();
+                tfIDireccion.setPromptText("Dirección");
+                tfIDireccion.setLabelFloat(true);
+
+                tfISueldo = new JFXTextField();
+                tfISueldo.setPromptText("Sueldo");
+                tfISueldo.setLabelFloat(true);
+
                 HBox ctnBotones = new HBox(15);
                 {
                     Button btnAceptar = new Button("Aceptar");
@@ -78,11 +93,11 @@ public class frmCliente {
                     });
                     ctnBotones.getChildren().addAll(btnCancelar, btnAceptar);
                 }
-                Contenedor.getChildren().addAll(tfICedula, tfIApellido, tfINombre, tfITelefono, ctnBotones);
-                
+                Contenedor.getChildren().addAll(tfICedula, tfIApellido, tfINombre, tfITelefono, tfIDireccion, tfISueldo, ctnBotones);
+
                 Contenedor.setPadding(new Insets(15));
                 Contenedor.setStyle("-fx-background-color:rgb(235,235,235);-fx-background-radius:10px");
-                Contenedor.setMaxSize(400, 270);
+                Contenedor.setMaxSize(400, 300);
             }
             fondo.setStyle("-fx-background-color:rgba(25,25,25,0.6)");
             AnchorPane.setBottomAnchor(fondo, 0.0);
@@ -93,42 +108,53 @@ public class frmCliente {
         }
         root.getChildren().add(fondo);
     }
-    
+
     public void formDatos(AnchorPane root, BorderPane layout) {
         VBox contenedor = new VBox(10);
         {
-            
+
             HBox cntTitle = new HBox();
             {
-                Label lblTitle = new Label("Clientes");
+                Label lblTitle = new Label("Empleados");
                 lblTitle.setStyle("-fx-text-fill:white;-fx-padding:5");
                 cntTitle.getChildren().add(lblTitle);
                 cntTitle.setAlignment(Pos.CENTER);
                 cntTitle.setStyle("-fx-background-color:rgb(0,92,150)");
             }
-            
+
             VBox TFContainer = new VBox(30);
             {
-                
+
                 tfCedula = new JFXTextField();
                 tfCedula.setPromptText("Cédula");
                 tfCedula.setLabelFloat(true);
-                
+
                 tfNombre = new JFXTextField();
                 tfNombre.setPromptText("Nombres");
                 tfNombre.setLabelFloat(true);
-                
+
                 tfApellido = new JFXTextField();
                 tfApellido.setPromptText("Apellidos");
                 tfApellido.setLabelFloat(true);
-                
+
                 tfTelefono = new JFXTextField();
                 tfTelefono.setPromptText("Teléfono");
                 tfTelefono.setLabelFloat(true);
                 TFContainer.setStyle("-fx-padding:10");
-                TFContainer.getChildren().addAll(tfCedula, tfNombre, tfApellido, tfTelefono);
+
+                tfDireccion = new JFXTextField();
+                tfDireccion.setPromptText("Dirección");
+                tfDireccion.setLabelFloat(true);
+                TFContainer.setStyle("-fx-padding:10");
+
+                tfSueldo = new JFXTextField();
+                tfSueldo.setPromptText("Sueldo");
+                tfSueldo.setLabelFloat(true);
+                TFContainer.setStyle("-fx-padding:10");
+
+                TFContainer.getChildren().addAll(tfCedula, tfNombre, tfApellido, tfTelefono, tfDireccion, tfSueldo);
             }
-            
+
             HBox boxButtons = new HBox(10);
             {
                 Button btnNuevo = new Button("Nuevo");
@@ -137,89 +163,97 @@ public class frmCliente {
                 });
                 Button btnModificar = new Button("Modificar");
                 btnModificar.setOnAction(modificarActionListener());
-                
+
                 Button btnBuscar = new Button("Buscar");
                 btnBuscar.setOnAction(buscarActionListener());
-                
+
                 Button btnEliminar = new Button("Eliminar");
                 btnEliminar.setOnAction(eliminarActionListener());
-                
+
                 Button btnLimpiar = new Button("Limpiar");
                 btnLimpiar.setOnAction(limpiarActionListener());
-                
+
                 boxButtons.setStyle("-fx-background-color:rgb(0,92,150);-fx-padding:5");
                 boxButtons.getChildren().addAll(btnNuevo, btnModificar, btnBuscar, btnEliminar, btnLimpiar);
             }
-            
+
             VBox.setVgrow(TFContainer, Priority.ALWAYS);
             contenedor.setStyle("-fx-background-color:white");
-            
+
             contenedor.getChildren().addAll(cntTitle, TFContainer, boxButtons);
             contenedor.setAlignment(Pos.TOP_CENTER);
             layout.setRight(contenedor);
         }
-        
+
     }
-    
+
     public void formTablas(BorderPane contenedor) {
         contenedor.setCenter(Tabla());
-        
+
     }
-    
+
     public void launchTablas() {
-        TableView<Cliente> tabla = Tabla();
+        TableView<Empleado> tabla = Tabla();
         AnchorPane root = new AnchorPane(tabla);
         AnchorPane.setTopAnchor(tabla, 0.0);
         AnchorPane.setBottomAnchor(tabla, 0.0);
         AnchorPane.setRightAnchor(tabla, 0.0);
         AnchorPane.setLeftAnchor(tabla, 0.0);
-        
-        Scene scene = new Scene(root, 600, 400);
+
+        Scene scene = new Scene(root, 700, 450);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Clientes");
         stage.show();
-        
+
     }
-    
-    private static TableView<Cliente> Tabla() {
-        TableView<Cliente> tabla = new TableView<>();
+
+    private static TableView<Empleado> Tabla() {
+        TableView<Empleado> tabla = new TableView<>();
         //Name column
-        TableColumn<Cliente, String> nameColumn = new TableColumn<>("Cedula");
-        nameColumn.setMinWidth(80);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("Cedula"));
+        TableColumn<Empleado, String> colCedula = new TableColumn<>("Cedula");
+        colCedula.setMinWidth(80);
+        colCedula.setCellValueFactory(new PropertyValueFactory<>("Cedula"));
 
         //Price column
-        TableColumn<Cliente, Double> priceColumn = new TableColumn<>("Nombres");
-        priceColumn.setMinWidth(100);
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("Nombres"));
+        TableColumn<Empleado, Double> colNonbres = new TableColumn<>("Nombres");
+        colNonbres.setMinWidth(100);
+        colNonbres.setCellValueFactory(new PropertyValueFactory<>("Nombres"));
 
         //Quantity column
-        TableColumn<Cliente, String> quantityColumn = new TableColumn<>("Apellidos");
-        quantityColumn.setMinWidth(100);
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("Apellidos"));
+        TableColumn<Empleado, String> colApellidos = new TableColumn<>("Apellidos");
+        colApellidos.setMinWidth(100);
+        colApellidos.setCellValueFactory(new PropertyValueFactory<>("Apellidos"));
 
         //Phone column
-        TableColumn<Cliente, String> phoneColumn = new TableColumn<>("Teléfono");
-        phoneColumn.setMinWidth(100);
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
-        
+        TableColumn<Empleado, String> colTelefono = new TableColumn<>("Teléfono");
+        colTelefono.setMinWidth(100);
+        colTelefono.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
+
+        TableColumn<Empleado, String> colDireccion = new TableColumn<>("Direccion");
+        colDireccion.setMinWidth(100);
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+
+        TableColumn<Empleado, String> colSueldo = new TableColumn<>("Sueldo");
+        colSueldo.setMinWidth(100);
+        colSueldo.setCellValueFactory(new PropertyValueFactory<>("sueldo"));
+
         tabla.setItems(getCliente());
         tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
-        tabla.getColumns().addAll(nameColumn, priceColumn, quantityColumn, phoneColumn);
+
+        tabla.getColumns().addAll(colCedula, colApellidos, colNonbres, colDireccion, colTelefono, colSueldo);
         return tabla;
     }
-    
-    private static ObservableList<Cliente> getCliente() {
-        ObservableList<Cliente> lista = FXCollections.observableArrayList();
-        ICliente sqlCliente = new impCliente();
-        
+
+    private static ObservableList<Empleado> getCliente() {
+        ObservableList<Empleado> lista = FXCollections.observableArrayList();
+
         try {
-            List<Cliente> clientes = sqlCliente.obtener();
-            if (clientes.size() > 0) {
-                clientes.forEach((tmp) -> {
+            IEmpleado sqlEmpleado = new impEmpleado();
+            List<Empleado> empleados = sqlEmpleado.obtener();
+            if (empleados.size() > 0) {
+                empleados.forEach((tmp) -> {
                     lista.add(tmp);
                 });
             }
@@ -237,19 +271,20 @@ public class frmCliente {
      */
     private EventHandler aceptarInsercioActionListener(AnchorPane root, StackPane fondo) {
         EventHandler handler = (t) -> {
-            ICliente sqlCliente = new impCliente();
-            int insertados = 0;
+            IEmpleado sqlEmpleado = new impEmpleado();
+
             try {
-                Cliente cliente = new Cliente();
-                cliente.setApellidos(tfIApellido.getText());
-                cliente.setCedula(tfICedula.getText());
-                System.out.println(cliente.getCedula());
-                cliente.setNombres(tfINombre.getText());
-                cliente.setTelefono(tfITelefono.getText());
-                insertados = sqlCliente.insertar(cliente);
-                if (insertados > 0) {
+                Empleado empleado = new Empleado();
+                empleado.setApellidos(tfIApellido.getText());
+                empleado.setCedula(tfICedula.getText());
+                empleado.setNombres(tfINombre.getText());
+                empleado.setTelefono(tfITelefono.getText());
+                empleado.setDireccion(tfIDireccion.getText());
+                empleado.setSueldo(Double.parseDouble(tfISueldo.getText()));
+
+                if (sqlEmpleado.insertar(empleado) > 0) {
                     root.getChildren().remove(fondo);
-                    Mensaje("Insercio", "Nuevo cliente guardado");
+                    Mensaje("Insercion", "Nuevo empleado guardado");
                 }
             } catch (Exception e) {
                 Mensaje("Error!", e.getMessage());
@@ -257,51 +292,63 @@ public class frmCliente {
         };
         return handler;
     }
-    
+
     private EventHandler buscarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                ICliente sqlCliente = new impCliente();
-                Cliente cliente = sqlCliente.obtener(tfCedula.getText());
-                tfApellido.setText(cliente.getApellidos());
-                tfNombre.setText(cliente.getNombres());
-                tfTelefono.setText(cliente.getTelefono());
+                IEmpleado sqlEmpleado = new impEmpleado();
+                Empleado empleado = sqlEmpleado.obtener(tfCedula.getText());
+                tfApellido.setText(empleado.getApellidos());
+                tfNombre.setText(empleado.getNombres());
+                tfTelefono.setText(empleado.getTelefono());
+                tfDireccion.setText(empleado.getDireccion());
+                tfSueldo.setText("" + empleado.getSueldo());
             } catch (Exception e) {
                 Mensaje("ERROR!", e.getMessage());
             }
         };
         return handler;
     }
-    
+
     private EventHandler modificarActionListener() {
         EventHandler handler = (t) -> {
+            IEmpleado sqlEmpleado = new impEmpleado();
+            Empleado empleado = new Empleado();
             try {
-                ICliente sqlCliente = new impCliente();
-                Cliente cliente = new Cliente();
-                cliente.setApellidos(tfApellido.getText());
-                cliente.setCedula(tfCedula.getText());
-                cliente.setNombres(tfNombre.getText());
-                cliente.setTelefono(tfTelefono.getText());
-                if (sqlCliente.modificar(cliente) > 0) {
-                    Mensaje("Modificar", "Modificación exitosa");
+
+                empleado.setApellidos(tfApellido.getText());
+                empleado.setCedula(tfCedula.getText());
+                empleado.setNombres(tfNombre.getText());
+                empleado.setTelefono(tfTelefono.getText());
+                empleado.setDireccion(tfDireccion.getText());
+                empleado.setSueldo(Double.parseDouble(tfSueldo.getText()));
+                System.out.println(""
+                        + "Cedula: " + empleado.getCedula()
+                        + "Nombre: " + empleado.getNombres()
+                        + "Apellido: " + empleado.getApellidos()
+                        + "telefono: " + empleado.getTelefono()
+                        + "dir: " + empleado.getDireccion()
+                        + "Sueldo: " + empleado.getSueldo()
+                );
+                int modificado = sqlEmpleado.modificar(empleado);
+                if (modificado > 0) {
+                    Mensaje("Actualizacion", "Cambios Guardados");
                 }
             } catch (Exception e) {
-                Mensaje("ERROR!", e.getMessage());
+                Mensaje("Error!", e.getMessage());
+                System.err.printf("Error en la modificacion de empleado: " + e.getMessage());
             }
         };
         return handler;
     }
-    
+
     private EventHandler eliminarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                ICliente sqlCliente = new impCliente();
-                Cliente cliente = new Cliente();
-                cliente.setApellidos(tfApellido.getText());
-                cliente.setCedula(tfCedula.getText());
-                cliente.setNombres(tfNombre.getText());
-                cliente.setTelefono(tfTelefono.getText());
-                if (sqlCliente.eliminar(cliente) > 0) {
+                IEmpleado sqlEmpleado = new impEmpleado();
+                Empleado empleado = new Empleado();
+                empleado.setCedula(tfCedula.getText());
+                if (sqlEmpleado.eliminar(empleado) > 0) {
                     Mensaje("Eliminar", "Eliminacionación exitosa");
                 }
             } catch (Exception e) {
@@ -310,25 +357,27 @@ public class frmCliente {
         };
         return handler;
     }
-    
+
     private EventHandler limpiarActionListener() {
         EventHandler handler = (t) -> {
             tfApellido.setText("");
             tfCedula.setText("");
             tfNombre.setText("");
             tfTelefono.setText("");
+            tfDireccion.setText("");
+            tfSueldo.setText("");
         };
         return handler;
     }
-    
+
     private static void Mensaje(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         //alert.initStyle(StageStyle.UNDECORATED);
         alert.setContentText(mensaje);
-        
+
         alert.showAndWait();
     }
-    
+
 }

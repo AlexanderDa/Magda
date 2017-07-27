@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 public class frmPrincipal extends Application {
 
     static frmCliente cliente = new frmCliente();
+    static frmEmpleado empleado = new frmEmpleado();
     static AnchorPane root;
     static BorderPane contenedor;
     static Button btnCliente;
@@ -63,11 +64,13 @@ public class frmPrincipal extends Application {
 //                menuLogo.setGraphic(icono);
 //
 //            }
-            
 
             Menu menuArchivo = new Menu("Archivo");
             {
                 MenuItem itemEmpleado = new MenuItem("Empleado\t\t");
+                itemEmpleado.setOnAction((t) -> {
+                    empleado.launchTablas();
+                });
                 MenuItem itemCliente = new MenuItem("Cliente");
                 itemCliente.setOnAction((t) -> {
                     cliente.launchTablas();
@@ -77,7 +80,7 @@ public class frmPrincipal extends Application {
                 MenuItem itemFactura = new MenuItem("Factúra");
                 menuArchivo.getItems().addAll(itemCategoria, itemCliente, itemEmpleado, itemFactura, itemProducto);
             }
-            MBar.getMenus().addAll( menuArchivo);
+            MBar.getMenus().addAll(menuArchivo);
         }
 
         return MBar;
@@ -90,6 +93,7 @@ public class frmPrincipal extends Application {
             btnCliente = new Button("Clientes");
             btnCliente.setOnAction(btnClienteActionListener());
             Button btnEmpleado = new Button("Empleados");
+            btnEmpleado.setOnAction(btnEmpleadoActionListener());
             Button btnProducto = new Button("Productos");
             Button btnFactura = new Button("Factúra");
             Button btnCategoria = new Button("Categoria");
@@ -109,7 +113,14 @@ public class frmPrincipal extends Application {
         EventHandler handler = (t) -> {
             cliente.formDatos(root, contenedor);
             cliente.formTablas(contenedor);
-            cliente.launchTablas();
+        };
+        return handler;
+    }
+
+    public static EventHandler btnEmpleadoActionListener() {
+        EventHandler handler = (t) -> {
+            empleado.formDatos(root, contenedor);
+            empleado.formTablas(contenedor);
         };
         return handler;
     }
