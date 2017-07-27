@@ -1,0 +1,32 @@
+.panel_izquierdo .button {
+    -fx-background-color: rgb(0,92,150);  
+    -fx-text-fill:#ffffff;
+    -fx-background-radius: 0px;
+    -fx-background-insets: 0px;
+    -fx-min-width:125px;
+}
+.panel_izquierdo .button:focused{
+    -fx-background-color: rgba(0,0,0,0.25); 
+}
+.button {
+    -fx-background-color: rgb(0,92,150);  
+    -fx-text-fill:#ffffff;
+    -fx-background-radius: 4px;
+    -fx-background-insets: 0px;
+}
+.button:focused{
+    -fx-background-color: rgba(0,0,0,0.25); 
+}
+.panel_izquierdo{
+    -fx-background-color: rgb(0,92,150);    
+}
+
+.menu-bar{
+    -fx-padding: 0.0em 0.666667em 0.0em 0.666667em; /* 0 8 0 8 */
+    -fx-spacing: 0.166667em; /* 2 */
+    -fx-base: derive(#d0d0d0,-70%);
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-color,50%), derive(-fx-color,-30%)), -fx-body-color;
+    -fx-background-insets: 0, 1 0 1 0;
+    -fx-background-radius: 0, 0 ;
+
+}
