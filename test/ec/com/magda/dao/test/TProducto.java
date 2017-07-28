@@ -5,9 +5,10 @@
  */
 package ec.com.magda.dao.test;
 
-import ec.com.magda.dao.contrato.ICategoria;
-import ec.com.magda.dao.impl.CategoriaImp;
+import ec.com.magda.dao.contrato.IProducto;
+import ec.com.magda.dao.impl.ProductoImp;
 import ec.com.magda.rnegocio.entidades.Categoria;
+import ec.com.magda.rnegocio.entidades.Producto;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
@@ -18,12 +19,12 @@ import static org.junit.Assert.*;
  *
  * @author alexander
  */
-public class TCategoria {
+public class TProducto {
 
     /*
                                                                         APROBADO
      */
-    public TCategoria() {
+    public TProducto() {
     }
 
     @Before
@@ -35,52 +36,50 @@ public class TCategoria {
     //
     @Test
     public void test() {
-        ICategoria sqlCategoria = new CategoriaImp();
-        Categoria categoria = new Categoria(10000, "DE PRUEBA");
+        IProducto sqlproducto = new ProductoImp();
+        Producto producto = new Producto(1000, "Falda", 25, 17, new Categoria(1, ""));
+
 //INSERTAR
         int insertados = 0;
         try {
-            insertados = sqlCategoria.insertar(categoria);
+            insertados = sqlproducto.insertar(producto);
         } catch (Exception e) {
         }
         assertTrue(insertados > 0);
-//MODIFICAR
-        categoria.setDescripcion("DE PRUEBA MODIFICADO");
-        int modificados = 0;
+//OBTENER
+        Producto producto1 = null;
         try {
-            modificados = sqlCategoria.modificar(categoria);
+            producto1 = sqlproducto.obtener(1000);
+        } catch (Exception e) {
+        }
+        assertTrue(producto1 != null);
+//OBTENER por descripcion
+        Producto pro = null;
+        try {
+            pro = sqlproducto.obtener("Aderezos");
+        } catch (Exception e) {
+        }
+        assertTrue(pro != null);
+//MODIFICAR
+        int modificados = 0;
+        producto.setDescripcion("Falda larga");
+        try {
+            modificados = sqlproducto.modificar(producto);
         } catch (Exception e) {
         }
 
         assertTrue(modificados > 0);
-//OBTENER
-        Categoria Categoria1 = null;
-        try {
-            Categoria1 = sqlCategoria.obtener(10000);
-        } catch (Exception e) {
-        }
-        assertTrue(Categoria1 != null);
-//OBTENER por descripcion
-        Categoria Cat = null;
-        try {
-            Cat = sqlCategoria.obtener("Abarrotes");
-        } catch (Exception e) {
-        }
-        assertTrue(Cat != null);
 //LISTAR
-        List<Categoria> lista = new ArrayList<>();
+        List<Producto> lista = new ArrayList<>();
         try {
-            lista = sqlCategoria.obtener();
-            for (Categoria tmp : lista) {
-                System.out.println(tmp.getId() + "   " + tmp.getDescripcion());
-            }
+            lista = sqlproducto.obtener();
         } catch (Exception e) {
         }
         assertTrue(lista.size() > 0);
 //ELIMINAR
         int eliminados = 0;
         try {
-            eliminados = sqlCategoria.eliminar(categoria);
+            eliminados = sqlproducto.eliminar(producto);
         } catch (Exception e) {
         }
         assertTrue(eliminados > 0);
