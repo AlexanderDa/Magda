@@ -22,6 +22,8 @@ public interface IProducto {
     int eliminar(Producto producto) throws Exception;
 
     Producto obtener(int id) throws Exception;
+    
+    Producto obtener(String descripcion) throws Exception;
 
     List<Producto> obtener() throws Exception;
 
