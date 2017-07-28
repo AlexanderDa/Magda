@@ -38,7 +38,7 @@ public class frmLogin extends Application {
         AnchorPane root = new AnchorPane();
         {
             
-            JFXTextField txCedula = new JFXTextField("048572097-6");
+            JFXTextField txCedula = new JFXTextField("*********-*");
             txCedula.setPromptText("Número de cédula");
             txCedula.setLabelFloat(true);
             txCedula.setLayoutY(175);

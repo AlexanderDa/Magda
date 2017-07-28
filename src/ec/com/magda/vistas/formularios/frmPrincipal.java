@@ -16,6 +16,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -23,7 +24,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author alexander
+ * @author acer1
  */
 public class frmPrincipal extends Application {
 
@@ -34,6 +35,8 @@ public class frmPrincipal extends Application {
     private static frmCliente cliente;
     private static frmEmpleado empleado;
     private static frmFactura factura;
+    private static frmCategoria categoria;
+    private static frmProducto producto;
 
     public void setCedulaEmpleado(String aCedulaEmpleado) {
         cedulaEmpleado = aCedulaEmpleado;
@@ -44,6 +47,8 @@ public class frmPrincipal extends Application {
         cliente = new frmCliente();
         empleado = new frmEmpleado();
         factura = new frmFactura();
+        categoria = new frmCategoria();
+        producto = new frmProducto();
 
         contenedor = new BorderPane();
         {
@@ -62,7 +67,7 @@ public class frmPrincipal extends Application {
         scene.getStylesheets().addAll(this.getClass().getResource("estilos/Principal.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Magda");
-        //stage.getIcons().add(new Image(getClass().getResource("../imagenes/Icono.png").toExternalForm()));
+        stage.getIcons().add(new Image(getClass().getResource("../imagenes/Icono.png").toExternalForm()));
         stage.show();
     }
 
@@ -89,8 +94,14 @@ public class frmPrincipal extends Application {
                 itemCliente.setOnAction((t) -> {
                     cliente.launchTablas();
                 });
-                MenuItem itemProducto = new MenuItem("Producto");
                 MenuItem itemCategoria = new MenuItem("Categoria");
+                itemCategoria.setOnAction((t) -> {
+                    categoria.launchTablas();
+                });
+                MenuItem itemProducto = new MenuItem("Producto");
+                itemProducto.setOnAction((t) -> {
+                    producto.launchTablas();
+                });
                 MenuItem itemFactura = new MenuItem("Factúra");
                 menuArchivo.getItems().addAll(itemCategoria, itemCliente, itemEmpleado, itemFactura, itemProducto);
             }
@@ -109,9 +120,11 @@ public class frmPrincipal extends Application {
             Button btnEmpleado = new Button("Empleados");
             btnEmpleado.setOnAction(btnEmpleadoActionListener());
             Button btnProducto = new Button("Productos");
+            btnProducto.setOnAction(btnProductoActionListener());
             Button btnFactura = new Button("Factúra");
             btnFactura.setOnAction(btnfacturaActionListener());
-            Button btnCategoria = new Button("Categoria");
+            Button btnCategoria = new Button("Categoría");
+            btnCategoria.setOnAction(btnCategoriaActionListener());
             panel.getStyleClass().add("panel_izquierdo");
             panel.getChildren().addAll(btnCategoria, btnCliente, btnEmpleado, btnFactura, btnProducto);
         }
@@ -152,6 +165,22 @@ public class frmPrincipal extends Application {
 
             factura.formDatos(root, contenedor);
 
+        };
+        return handler;
+    }
+
+    public static EventHandler btnCategoriaActionListener() {
+        EventHandler handler = (t) -> {
+            categoria.formDatos(root, contenedor);
+            categoria.formTablas(contenedor);
+        };
+        return handler;
+    }
+
+    public static EventHandler btnProductoActionListener() {
+        EventHandler handler = (t) -> {
+            producto.formDatos(root, contenedor);
+            producto.formTablas(contenedor);
         };
         return handler;
     }
