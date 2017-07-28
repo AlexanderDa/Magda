@@ -21,6 +21,8 @@ public interface IFactura {
     int modificar(Factura factura) throws Exception;
 
     int eliminar(Factura factura) throws Exception;
+    
+    int numero() throws Exception;
 
     Factura obtener(int numero) throws Exception;
 

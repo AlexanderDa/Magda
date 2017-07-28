@@ -125,4 +125,21 @@ public class impFactura implements IFactura {
         return lista;
     }
 
+    @Override
+    public int numero() throws Exception {
+       
+       int numero =0;
+       String sql = "select last_value from factura_numero_seq";
+       Conexion con = new Conexion();
+        try {
+            ResultSet rst = con.ejecutarQuery(sql);
+            while (rst.next()) {                
+                numero = rst.getInt(1)+1;
+            }
+            
+        } catch (Exception e) {
+        }
+       return numero;
+    }
+
 }

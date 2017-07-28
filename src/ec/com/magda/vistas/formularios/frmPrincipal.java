@@ -5,6 +5,9 @@
  */
 package ec.com.magda.vistas.formularios;
 
+import ec.com.magda.dao.contrato.IFactura;
+import ec.com.magda.dao.impl.impFactura;
+import ec.com.magda.rnegocio.entidades.Empleado;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -12,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -23,14 +27,24 @@ import javafx.stage.Stage;
  */
 public class frmPrincipal extends Application {
 
-    static frmCliente cliente = new frmCliente();
-    static frmEmpleado empleado = new frmEmpleado();
+    private static String cedulaEmpleado;
     static AnchorPane root;
     static BorderPane contenedor;
     static Button btnCliente;
+    private static frmCliente cliente;
+    private static frmEmpleado empleado;
+    private static frmFactura factura;
+
+    public void setCedulaEmpleado(String aCedulaEmpleado) {
+        cedulaEmpleado = aCedulaEmpleado;
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
+        cliente = new frmCliente();
+        empleado = new frmEmpleado();
+        factura = new frmFactura();
+
         contenedor = new BorderPane();
         {
             contenedor.setTop(menuBar());
@@ -44,7 +58,7 @@ public class frmPrincipal extends Application {
 
         root = new AnchorPane();
         root.getChildren().add(contenedor);
-        Scene scene = new Scene(root, 900, 600);
+        Scene scene = new Scene(root, 1000, 650);
         scene.getStylesheets().addAll(this.getClass().getResource("estilos/Principal.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Magda");
@@ -96,6 +110,7 @@ public class frmPrincipal extends Application {
             btnEmpleado.setOnAction(btnEmpleadoActionListener());
             Button btnProducto = new Button("Productos");
             Button btnFactura = new Button("Factúra");
+            btnFactura.setOnAction(btnfacturaActionListener());
             Button btnCategoria = new Button("Categoria");
             panel.getStyleClass().add("panel_izquierdo");
             panel.getChildren().addAll(btnCategoria, btnCliente, btnEmpleado, btnFactura, btnProducto);
@@ -124,4 +139,21 @@ public class frmPrincipal extends Application {
         };
         return handler;
     }
+
+    public static EventHandler btnfacturaActionListener() {
+        EventHandler handler = (t) -> {
+            IFactura sqlFactura = new impFactura();
+            factura.formFacturacion(contenedor);
+            factura.setEmpleado(cedulaEmpleado);
+            try {
+                factura.setNumeroFactura(sqlFactura.numero());
+            } catch (Exception e) {
+            }
+
+            factura.formDatos(root, contenedor);
+
+        };
+        return handler;
+    }
+
 }
