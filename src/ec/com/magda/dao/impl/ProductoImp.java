@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class impProducto implements IProducto {
+public class ProductoImp implements IProducto {
 
     @Override
     public int insertar(Producto producto) throws Exception {
@@ -78,7 +78,7 @@ public class impProducto implements IProducto {
     @Override
     public Producto obtener(int id) throws Exception {
         Producto producto = null;
-        ICategoria sqlCategoria = new impCategoria();
+        ICategoria sqlCategoria = new CategoriaImp();
         String sql = "SELECT id, descripcion, stock, precio, categoria FROM producto where id = ?;";
         List<Parametro> prts = new ArrayList<>();
         prts.add(new Parametro(1, id));
@@ -101,8 +101,33 @@ public class impProducto implements IProducto {
     }
 
     @Override
+    public Producto obtener(String descripcion) throws Exception {
+        Producto producto = null;
+        ICategoria sqlCategoria = new CategoriaImp();
+        String sql = "SELECT id, descripcion, stock, precio, categoria FROM producto where descripcion = ?";
+        List<Parametro> prts = new ArrayList<>();
+        prts.add(new Parametro(1, descripcion));
+        Conexion con = new Conexion();
+        try {
+            ResultSet rst = con.ejecutarQuery(sql, prts);
+            while (rst.next()) {
+                producto = new Producto();
+                producto.setId(rst.getInt(1));
+                producto.setDescripcion(rst.getString(2));
+                producto.setStock(rst.getInt(3));
+                producto.setPrecio(rst.getDouble(4));
+                producto.setCategoria(sqlCategoria.obtener(rst.getInt(5)));
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        }
+        return producto;
+    }
+
+    @Override
     public List<Producto> obtener() throws Exception {
-        ICategoria sqlCategoria = new impCategoria();
+        ICategoria sqlCategoria = new CategoriaImp();
         List<Producto> lista = new ArrayList<>();
         String sql = "SELECT id, descripcion, stock, precio, categoria FROM producto";
         Conexion con = new Conexion();

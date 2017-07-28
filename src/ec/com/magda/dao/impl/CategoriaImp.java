@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class impCategoria implements ICategoria {
+public class CategoriaImp implements ICategoria {
 
     @Override
     public int insertar(Categoria categoria) throws Exception {
@@ -70,8 +70,8 @@ public class impCategoria implements ICategoria {
 
     @Override
     public Categoria obtener(int id) throws Exception {
-       Categoria categoria= null;
-       String sql = "SELECT id, descripcion FROM categoria where id = ?;";
+        Categoria categoria = null;
+        String sql = "SELECT id, descripcion FROM categoria where id = ?;";
         List<Parametro> prts = new ArrayList<>();
         prts.add(new Parametro(1, id));
         Conexion con = new Conexion();
@@ -86,17 +86,38 @@ public class impCategoria implements ICategoria {
         } catch (SQLException e) {
             throw e;
         }
-       return categoria;
+        return categoria;
+    }
+
+    @Override
+    public Categoria obtener(String descripcion) throws Exception {
+        Categoria categoria = null;
+        String sql = "SELECT id, descripcion FROM categoria where descripcion = ?";
+        List<Parametro> prts = new ArrayList<>();
+        prts.add(new Parametro(1, descripcion));
+        Conexion con = new Conexion();
+        try {
+            ResultSet rst = con.ejecutarQuery(sql, prts);
+            while (rst.next()) {
+                categoria = new Categoria();
+                categoria.setId(rst.getInt(1));
+                categoria.setDescripcion(rst.getString(2));
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        }
+        return categoria;
     }
 
     @Override
     public List<Categoria> obtener() throws Exception {
         List<Categoria> lista = new ArrayList<>();
-       String sql ="SELECT id, descripcion FROM categoria";
-       Conexion con = new Conexion();
+        String sql = "SELECT id, descripcion FROM categoria";
+        Conexion con = new Conexion();
         try {
             ResultSet rst = con.ejecutarQuery(sql);
-            while (rst.next()) {                
+            while (rst.next()) {
                 Categoria categoria = new Categoria();
                 categoria.setId(rst.getInt(1));
                 categoria.setDescripcion(rst.getString(2));
@@ -105,8 +126,8 @@ public class impCategoria implements ICategoria {
         } catch (SQLException e) {
             throw e;
         }
-       
-       return lista;
+
+        return lista;
     }
 
 }
