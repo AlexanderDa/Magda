@@ -8,9 +8,9 @@ package ec.com.magda.dao.test;
 import ec.com.magda.dao.contrato.ICliente;
 import ec.com.magda.dao.contrato.IEmpleado;
 import ec.com.magda.dao.contrato.IFactura;
-import ec.com.magda.dao.impl.impCliente;
-import ec.com.magda.dao.impl.impEmpleado;
-import ec.com.magda.dao.impl.impFactura;
+import ec.com.magda.dao.impl.ClienteImp;
+import ec.com.magda.dao.impl.EmpleadoImp;
+import ec.com.magda.dao.impl.FacturaImp;
 import ec.com.magda.rnegocio.entidades.Factura;
 
 import java.util.ArrayList;
@@ -40,9 +40,9 @@ public class TFactura {
     //
     @Test
     public void test() {
-        IFactura sqlFactura = new  impFactura();
-        ICliente sqlCliente = new impCliente();
-        IEmpleado sqlEmpleado = new impEmpleado();
+        IFactura sqlFactura = new  FacturaImp();
+        ICliente sqlCliente = new ClienteImp();
+        IEmpleado sqlEmpleado = new EmpleadoImp();
         Factura factura = null;
 //OBTEBER EMPLEADO Y CLIENTE Y ASIGNAR A LA FACTURA
         try {

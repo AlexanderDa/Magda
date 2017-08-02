@@ -6,7 +6,7 @@
 package ec.com.magda.dao.test;
 
 import ec.com.magda.dao.contrato.IEmpleado;
-import ec.com.magda.dao.impl.impEmpleado;
+import ec.com.magda.dao.impl.EmpleadoImp;
 import ec.com.magda.rnegocio.entidades.Empleado;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class TEmpleado {
     //
     @Test
     public void test() {
-        IEmpleado sqlEmpleado = new impEmpleado();
+        IEmpleado sqlEmpleado = new EmpleadoImp();
         Empleado empleado = new Empleado("111111111-1", "a", "b", "c", "d", 500.5);
 //INSERTAR       
         int insertados = 0;

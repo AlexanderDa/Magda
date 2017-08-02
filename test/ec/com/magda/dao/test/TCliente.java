@@ -6,7 +6,7 @@
 package ec.com.magda.dao.test;
 
 import ec.com.magda.dao.contrato.ICliente;
-import ec.com.magda.dao.impl.impCliente;
+import ec.com.magda.dao.impl.ClienteImp;
 import ec.com.magda.rnegocio.entidades.Cliente;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class TCliente {
     //
     @Test
     public void test() {
-        ICliente sqlCliente = new impCliente();
+        ICliente sqlCliente = new ClienteImp();
         Cliente cliente = new Cliente("094783465-4", "Pedro", "Alcocer", "0934528743");
 
 //INSERTAR       

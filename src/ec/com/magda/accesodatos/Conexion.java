@@ -20,7 +20,7 @@ public class Conexion {
     final String USUARIO = "postgres";
     final String CLAVE = "postgres";
 
-    public void conectar() throws ClassNotFoundException, SQLException  {
+    public Connection conectar() throws ClassNotFoundException, SQLException  {
         try {
             Class.forName(DRIVER);
             try {
@@ -31,6 +31,7 @@ public class Conexion {
         } catch (ClassNotFoundException e) {
             throw e;
         }
+        return con;
     }
 
     public ResultSet ejecutarQuery(String sql) throws ClassNotFoundException, SQLException {

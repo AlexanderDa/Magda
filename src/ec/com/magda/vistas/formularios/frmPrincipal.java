@@ -7,6 +7,8 @@ package ec.com.magda.vistas.formularios;
 
 import ec.com.magda.dao.contrato.IFactura;
 import ec.com.magda.dao.impl.FacturaImp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -188,10 +190,14 @@ public class frmPrincipal {
         };
         return handler;
     }
-    private static EventHandler<ActionEvent> btnReportesActionListener() {
+    private static EventHandler<ActionEvent> btnReportesActionListener(){
         EventHandler handler = (t) -> {
-            frmReportes reportes = new frmReportes();
-            reportes.formInsertar(root);
+            try {
+                frmReportes reportes = new frmReportes();
+                reportes.formInsertar(root);
+            } catch (Exception ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
         };
         return handler;
     }
