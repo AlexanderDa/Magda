@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class impCliente implements ICliente {
+public class ClienteImp implements ICliente {
 
     @Override
     public int insertar(Cliente cliente) throws Exception {

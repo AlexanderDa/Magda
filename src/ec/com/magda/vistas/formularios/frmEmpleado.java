@@ -8,8 +8,8 @@ package ec.com.magda.vistas.formularios;
 import com.jfoenix.controls.JFXTextField;
 import ec.com.magda.dao.contrato.ICliente;
 import ec.com.magda.dao.contrato.IEmpleado;
-import ec.com.magda.dao.impl.impCliente;
-import ec.com.magda.dao.impl.impEmpleado;
+import ec.com.magda.dao.impl.ClienteImp;
+import ec.com.magda.dao.impl.EmpleadoImp;
 import ec.com.magda.rnegocio.entidades.Cliente;
 import ec.com.magda.rnegocio.entidades.Empleado;
 import java.util.List;
@@ -250,7 +250,7 @@ public class frmEmpleado {
         ObservableList<Empleado> lista = FXCollections.observableArrayList();
 
         try {
-            IEmpleado sqlEmpleado = new impEmpleado();
+            IEmpleado sqlEmpleado = new EmpleadoImp();
             List<Empleado> empleados = sqlEmpleado.obtener();
             if (empleados.size() > 0) {
                 empleados.forEach((tmp) -> {
@@ -271,7 +271,7 @@ public class frmEmpleado {
      */
     private EventHandler aceptarInsercioActionListener(AnchorPane root, StackPane fondo) {
         EventHandler handler = (t) -> {
-            IEmpleado sqlEmpleado = new impEmpleado();
+            IEmpleado sqlEmpleado = new EmpleadoImp();
 
             try {
                 Empleado empleado = new Empleado();
@@ -296,7 +296,7 @@ public class frmEmpleado {
     private EventHandler buscarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                IEmpleado sqlEmpleado = new impEmpleado();
+                IEmpleado sqlEmpleado = new EmpleadoImp();
                 Empleado empleado = sqlEmpleado.obtener(tfCedula.getText());
                 tfApellido.setText(empleado.getApellidos());
                 tfNombre.setText(empleado.getNombres());
@@ -312,7 +312,7 @@ public class frmEmpleado {
 
     private EventHandler modificarActionListener() {
         EventHandler handler = (t) -> {
-            IEmpleado sqlEmpleado = new impEmpleado();
+            IEmpleado sqlEmpleado = new EmpleadoImp();
             Empleado empleado = new Empleado();
             try {
 
@@ -345,7 +345,7 @@ public class frmEmpleado {
     private EventHandler eliminarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                IEmpleado sqlEmpleado = new impEmpleado();
+                IEmpleado sqlEmpleado = new EmpleadoImp();
                 Empleado empleado = new Empleado();
                 empleado.setCedula(tfCedula.getText());
                 if (sqlEmpleado.eliminar(empleado) > 0) {

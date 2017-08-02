@@ -8,12 +8,10 @@ package ec.com.magda.vistas.formularios;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import ec.com.magda.dao.contrato.ICliente;
-import ec.com.magda.dao.contrato.IDetalle;
 import ec.com.magda.dao.contrato.IEmpleado;
-import ec.com.magda.dao.impl.impCliente;
-import ec.com.magda.dao.impl.impDetalle;
-import ec.com.magda.dao.impl.impEmpleado;
-import ec.com.magda.rnegocio.entidades.Detalle;
+import ec.com.magda.dao.impl.ClienteImp;
+import ec.com.magda.dao.impl.EmpleadoImp;
+import ec.com.magda.rnegocio.entidades.Cliente;
 import ec.com.magda.rnegocio.entidades.Empleado;
 import java.time.LocalDate;
 import java.util.Date;
@@ -48,7 +46,7 @@ import javafx.stage.Stage;
 public class frmFactura {
 
     private Empleado empleado;
-    private Detalle detalle;
+    private Cliente cliente;
     private JFXTextField tfCedula;
     private JFXTextField tfNombre;
     private JFXTextField tfApellido;
@@ -61,9 +59,9 @@ public class frmFactura {
     private TextField tfNumeroFactura;
     private TextField tfFecha;
     private TextField tfEmpleado;
-    private TextField tfCedulaDetalle;
-    private TextField tfDetalle;
-    private TextField tfTelefonoDetalle;
+    private TextField tfCedulaCliente;
+    private TextField tfCliente;
+    private TextField tfTelefonoCliente;
 
     public void formInsertar(AnchorPane root) {
         StackPane fondo = new StackPane();
@@ -128,20 +126,43 @@ public class frmFactura {
 
             VBox TFContainer = new VBox(30);
             {
+
                 tfCedula = new JFXTextField();
+                tfCedula.setPromptText("Cédula");
+                tfCedula.setLabelFloat(true);
                 tfCedula.setOnKeyReleased((t) -> {
-                    ICliente sqlCliente = new impCliente();
                     if (tfCedula.getText().length() == 11) {
+                        ICliente sqlCliente = new ClienteImp();
                         try {
-                            System.err.println("a");
+                            cliente = sqlCliente.obtener(tfCedula.getText());
+                            tfCliente.setText(cliente.getApellidos() + " " + cliente.getNombres());
+                            tfCedulaCliente.setText(cliente.getCedula());
+                            tfTelefonoCliente.setText(cliente.getTelefono());
+                            System.out.println("---------------------------------------------------");
+                            System.out.println("Factura#: "+ tfNumeroFactura.getText());
+                            System.out.println("Empleado: " + empleado.getApellidos() + " " + empleado.getApellidos());
+                            System.out.println("Cliente:  " + cliente.getApellidos() + " "+ cliente.getNombres());
+
                         } catch (Exception e) {
+                            Mensaje("Error", "Cliente con cedula " + tfCedula.getText() + " no registrado."
+                                    + "\nVerifíque la cédula");
                         }
                     }
                 });
-                tfCedula.setPromptText("Cedula del cliente");
-                tfCedula.setLabelFloat(true);
+
+                tfNombre = new JFXTextField();
+                tfNombre.setPromptText("Nombres");
+                tfNombre.setLabelFloat(true);
+
+                tfApellido = new JFXTextField();
+                tfApellido.setPromptText("Apellidos");
+                tfApellido.setLabelFloat(true);
+
+                tfTelefono = new JFXTextField();
+                tfTelefono.setPromptText("Teléfono");
+                tfTelefono.setLabelFloat(true);
                 TFContainer.setStyle("-fx-padding:10");
-                TFContainer.getChildren().addAll(tfCedula);
+                TFContainer.getChildren().addAll(tfCedula, tfNombre, tfApellido, tfTelefono);
             }
 
             HBox boxButtons = new HBox(10);
@@ -216,43 +237,43 @@ public class frmFactura {
                 AnchorPane.setRightAnchor(infoFactura, 25.0);
             }
 
-            GridPane infoDetalle = new GridPane();
+            GridPane infoCliente = new GridPane();
             {
                 final Label lblEmpleado = new Label("Vendedor");
-                final Label lblCedulaDetalle = new Label("Cédula");
-                final Label lblDetalle = new Label("Detalle");
-                final Label lblTelefonoDetalle = new Label("Teléfono");
+                final Label lblCedulaCliente = new Label("Cédula");
+                final Label lblCliente = new Label("Cliente");
+                final Label lblTelefonoCliente = new Label("Teléfono");
 
                 tfEmpleado = new TextField();
                 tfEmpleado.setEditable(false);
 
-                tfCedulaDetalle = new TextField("");
-                tfCedulaDetalle.setEditable(false);
-                tfDetalle = new TextField();
-                tfDetalle.setEditable(false);
-
-                tfTelefonoDetalle = new TextField();
-                tfTelefonoDetalle.setEditable(false);
+                tfCedulaCliente = new TextField();
+                tfCedulaCliente.setEditable(false);
+                tfCliente = new TextField();
+                tfCliente.setEditable(false);
+                
+                tfTelefonoCliente = new TextField();
+                tfTelefonoCliente.setEditable(false);
 
                 GridPane.setConstraints(lblEmpleado, 0, 0);
                 GridPane.setHgrow(tfEmpleado, Priority.ALWAYS);
-                GridPane.setConstraints(lblCedulaDetalle, 0, 1);
-                GridPane.setConstraints(lblDetalle, 0, 2);
-                GridPane.setConstraints(lblTelefonoDetalle, 0, 3);
+                GridPane.setConstraints(lblCedulaCliente, 0, 1);
+                GridPane.setConstraints(lblCliente, 0, 2);
+                GridPane.setConstraints(lblTelefonoCliente, 0, 3);
                 GridPane.setConstraints(tfEmpleado, 1, 0);
-                GridPane.setConstraints(tfCedulaDetalle, 1, 1);
-                GridPane.setConstraints(tfDetalle, 1, 2);
-                GridPane.setConstraints(tfTelefonoDetalle, 1, 3);
-                infoDetalle.setVgap(5);
-                infoDetalle.setHgap(10);
-                infoDetalle.getChildren().addAll(lblCedulaDetalle, lblDetalle, lblTelefonoDetalle, lblEmpleado);
-                infoDetalle.getChildren().addAll(tfCedulaDetalle, tfDetalle, tfTelefonoDetalle, tfEmpleado);
-                infoDetalle.setLayoutY(150);
-                AnchorPane.setLeftAnchor(infoDetalle, 25.0);
-                AnchorPane.setRightAnchor(infoDetalle, 25.0);
+                GridPane.setConstraints(tfCedulaCliente, 1, 1);
+                GridPane.setConstraints(tfCliente, 1, 2);
+                GridPane.setConstraints(tfTelefonoCliente, 1, 3);
+                infoCliente.setVgap(5);
+                infoCliente.setHgap(10);
+                infoCliente.getChildren().addAll(lblCedulaCliente, lblCliente, lblTelefonoCliente, lblEmpleado);
+                infoCliente.getChildren().addAll(tfCedulaCliente, tfCliente, tfTelefonoCliente, tfEmpleado);
+                infoCliente.setLayoutY(150);
+                AnchorPane.setLeftAnchor(infoCliente, 25.0);
+                AnchorPane.setRightAnchor(infoCliente, 25.0);
             }
 
-            panel.getChildren().addAll(lblFactura, infoMagda, infoFactura, infoDetalle, Tabla());
+            panel.getChildren().addAll(lblFactura, infoMagda, infoFactura, infoCliente, Tabla());
 
             contenedor.setCenter(panel);
         }
@@ -260,7 +281,7 @@ public class frmFactura {
     }
 
     public void launchTablas() {
-        TableView<Detalle> tabla = Tabla();
+        TableView<Cliente> tabla = Tabla();
         AnchorPane root = new AnchorPane(tabla);
         AnchorPane.setTopAnchor(tabla, 0.0);
         AnchorPane.setBottomAnchor(tabla, 0.0);
@@ -271,35 +292,35 @@ public class frmFactura {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setTitle("Detalles");
+        stage.setTitle("Clientes");
         stage.show();
 
     }
 
-    private static TableView<Detalle> Tabla() {
-        TableView<Detalle> tabla = new TableView<>();
+    private static TableView<Cliente> Tabla() {
+        TableView<Cliente> tabla = new TableView<>();
         {
             //Name column
-            TableColumn<Detalle, String> nameColumn = new TableColumn<>("Producto");
+            TableColumn<Cliente, String> nameColumn = new TableColumn<>("Producto");
             nameColumn.setMinWidth(80);
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("Cedula"));
 
             //Price column
-            TableColumn<Detalle, Double> priceColumn = new TableColumn<>("Precio");
+            TableColumn<Cliente, Double> priceColumn = new TableColumn<>("Precio");
             priceColumn.setMinWidth(100);
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("Nombres"));
 
             //Quantity column
-            TableColumn<Detalle, String> quantityColumn = new TableColumn<>("Cantidad");
+            TableColumn<Cliente, String> quantityColumn = new TableColumn<>("Cantidad");
             quantityColumn.setMinWidth(100);
             quantityColumn.setCellValueFactory(new PropertyValueFactory<>("Apellidos"));
 
             //Phone column
-            TableColumn<Detalle, String> phoneColumn = new TableColumn<>("Total");
+            TableColumn<Cliente, String> phoneColumn = new TableColumn<>("Total");
             phoneColumn.setMinWidth(100);
             phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
 
-            tabla.setItems(getDetalle());
+            tabla.setItems(getCliente());
             tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
             tabla.getColumns().addAll(nameColumn, priceColumn, quantityColumn, phoneColumn);
@@ -311,14 +332,14 @@ public class frmFactura {
         return tabla;
     }
 
-    private static ObservableList<Detalle> getDetalle() {
-        ObservableList<Detalle> lista = FXCollections.observableArrayList();
-        IDetalle sqlDetalle = new impDetalle();
+    private static ObservableList<Cliente> getCliente() {
+        ObservableList<Cliente> lista = FXCollections.observableArrayList();
+        ICliente sqlCliente = new ClienteImp();
 
         try {
-            List<Detalle> detalles = sqlDetalle.obtener();
-            if (detalles.size() > 0) {
-                detalles.forEach((tmp) -> {
+            List<Cliente> clientes = sqlCliente.obtener();
+            if (clientes.size() > 0) {
+                clientes.forEach((tmp) -> {
                     lista.add(tmp);
                 });
             }
@@ -336,14 +357,19 @@ public class frmFactura {
      */
     private EventHandler aceptarInsercioActionListener(AnchorPane root, StackPane fondo) {
         EventHandler handler = (t) -> {
-            IDetalle sqlDetalle = new impDetalle();
+            ICliente sqlCliente = new ClienteImp();
             int insertados = 0;
             try {
-
-                insertados = sqlDetalle.insertar(detalle);
+                Cliente cliente = new Cliente();
+                cliente.setApellidos(tfIApellido.getText());
+                cliente.setCedula(tfICedula.getText());
+                System.out.println(cliente.getCedula());
+                cliente.setNombres(tfINombre.getText());
+                cliente.setTelefono(tfITelefono.getText());
+                insertados = sqlCliente.insertar(cliente);
                 if (insertados > 0) {
                     root.getChildren().remove(fondo);
-                    Mensaje("Insercio", "Nuevo detalle guardado");
+                    Mensaje("Insercio", "Nuevo cliente guardado");
                 }
             } catch (Exception e) {
                 Mensaje("Error!", e.getMessage());
@@ -355,8 +381,11 @@ public class frmFactura {
     private EventHandler buscarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                IDetalle sqlDetalle = new impDetalle();
-
+                ICliente sqlCliente = new ClienteImp();
+                Cliente cliente = sqlCliente.obtener(tfCedula.getText());
+                tfApellido.setText(cliente.getApellidos());
+                tfNombre.setText(cliente.getNombres());
+                tfTelefono.setText(cliente.getTelefono());
             } catch (Exception e) {
                 Mensaje("ERROR!", e.getMessage());
             }
@@ -368,10 +397,13 @@ public class frmFactura {
     private EventHandler modificarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                IDetalle sqlDetalle = new impDetalle();
-                Detalle detalle = new Detalle();
-
-                if (sqlDetalle.modificar(detalle) > 0) {
+                ICliente sqlCliente = new ClienteImp();
+                Cliente cliente = new Cliente();
+                cliente.setApellidos(tfApellido.getText());
+                cliente.setCedula(tfCedula.getText());
+                cliente.setNombres(tfNombre.getText());
+                cliente.setTelefono(tfTelefono.getText());
+                if (sqlCliente.modificar(cliente) > 0) {
                     Mensaje("Modificar", "Modificación exitosa");
                 }
             } catch (Exception e) {
@@ -384,10 +416,13 @@ public class frmFactura {
     private EventHandler eliminarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                IDetalle sqlDetalle = new impDetalle();
-                Detalle detalle = new Detalle();
-
-                if (sqlDetalle.eliminar(detalle) > 0) {
+                ICliente sqlCliente = new ClienteImp();
+                Cliente cliente = new Cliente();
+                cliente.setApellidos(tfApellido.getText());
+                cliente.setCedula(tfCedula.getText());
+                cliente.setNombres(tfNombre.getText());
+                cliente.setTelefono(tfTelefono.getText());
+                if (sqlCliente.eliminar(cliente) > 0) {
                     Mensaje("Eliminar", "Eliminacionación exitosa");
                 }
             } catch (Exception e) {
@@ -424,10 +459,12 @@ public class frmFactura {
 
     public void setEmpleado(String cedulaEmpleado) {
         try {
-            IEmpleado sqlEmpleado = new impEmpleado();
+            IEmpleado sqlEmpleado = new EmpleadoImp();
             empleado = sqlEmpleado.obtener(cedulaEmpleado);
             tfEmpleado.setText(empleado.getApellidos() + " " + empleado.getApellidos());
+            System.out.println(empleado.getApellidos());
         } catch (Exception e) {
+            System.err.println("Error carga de datos");   
         }
     }
 

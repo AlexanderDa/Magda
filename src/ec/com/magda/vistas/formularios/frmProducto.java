@@ -5,17 +5,18 @@
  */
 package ec.com.magda.vistas.formularios;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import ec.com.magda.dao.contrato.ICategoria;
 import ec.com.magda.dao.contrato.IProducto;
 import ec.com.magda.dao.impl.CategoriaImp;
 import ec.com.magda.dao.impl.ProductoImp;
+import ec.com.magda.rnegocio.entidades.Categoria;
 import ec.com.magda.rnegocio.entidades.Producto;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -48,6 +49,7 @@ public class frmProducto {
     private JFXTextField tfIStock;
     private JFXTextField tfIPrecio;
     private JFXTextField tfICategoria;
+    private JFXComboBox<Categoria> cmbCategoria;
 
     public void formInsertar(AnchorPane root) {
         StackPane fondo = new StackPane();
@@ -67,9 +69,24 @@ public class frmProducto {
                 tfIStock.setPromptText("Stock");
                 tfIStock.setLabelFloat(true);
 
-                tfICategoria = new JFXTextField();
-                tfICategoria.setPromptText("Categoría");
-                tfICategoria.setLabelFloat(true);
+                ICategoria sqlCategoria = new CategoriaImp();
+
+                ObservableList<Categoria> lstCategoria = FXCollections.observableArrayList();
+                try {
+                    List<Categoria> categorias = sqlCategoria.obtener();
+                    if (categorias.size() > 0) {
+                        categorias.forEach((tmp) -> {
+                            lstCategoria.add(tmp);
+                        });
+                    }
+                } catch (Exception e) {
+                    Mensaje("ERROR1", e.getMessage());
+                }
+                cmbCategoria = new JFXComboBox<Categoria>(lstCategoria);
+                VBox.setVgrow(cmbCategoria, Priority.ALWAYS);
+                cmbCategoria.setPromptText("Categória");
+                cmbCategoria.setLabelFloat(true);
+                cmbCategoria.setMinWidth(370);
 
                 HBox ctnBotones = new HBox(15);
                 {
@@ -81,7 +98,8 @@ public class frmProducto {
                     });
                     ctnBotones.getChildren().addAll(btnCancelar, btnAceptar);
                 }
-                Contenedor.getChildren().addAll(tfIDescripcion, tfIPrecio, tfIStock, tfICategoria, ctnBotones);
+                Contenedor.getChildren().addAll(tfIDescripcion, tfIPrecio, tfIStock, cmbCategoria, ctnBotones);
+                
 
                 Contenedor.setPadding(new Insets(15));
                 Contenedor.setStyle("-fx-background-color:rgb(235,235,235);-fx-background-radius:10px");
@@ -248,13 +266,15 @@ public class frmProducto {
                 producto.setDescripcion(tfIDescripcion.getText());
                 producto.setPrecio(Double.parseDouble(tfIPrecio.getText()));
                 producto.setStock(Integer.parseInt(tfIStock.getText()));
-                producto.setCategoria(dao.obtener(tfIDescripcion.getText()));
+                //producto.setCategoria(dao.obtener());
+                //System.out.println("categoria" + cmbCategor);
                 insertados = sqlProducto.insertar(producto);
                 if (insertados > 0) {
                     root.getChildren().remove(fondo);
                     Mensaje("Insercion", "Nuevo producto guardado");
                 }
             } catch (Exception e) {
+                System.out.println("categoria" + cmbCategoria.getItems());
                 Mensaje("Error!", e.getMessage());
             }
         };

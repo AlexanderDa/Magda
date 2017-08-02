@@ -7,7 +7,7 @@ package ec.com.magda.vistas.formularios;
 
 import com.jfoenix.controls.JFXTextField;
 import ec.com.magda.dao.contrato.ICliente;
-import ec.com.magda.dao.impl.impCliente;
+import ec.com.magda.dao.impl.ClienteImp;
 import ec.com.magda.rnegocio.entidades.Cliente;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -214,7 +214,7 @@ public class frmCliente {
     
     private static ObservableList<Cliente> getCliente() {
         ObservableList<Cliente> lista = FXCollections.observableArrayList();
-        ICliente sqlCliente = new impCliente();
+        ICliente sqlCliente = new ClienteImp();
         
         try {
             List<Cliente> clientes = sqlCliente.obtener();
@@ -237,7 +237,7 @@ public class frmCliente {
      */
     private EventHandler aceptarInsercioActionListener(AnchorPane root, StackPane fondo) {
         EventHandler handler = (t) -> {
-            ICliente sqlCliente = new impCliente();
+            ICliente sqlCliente = new ClienteImp();
             int insertados = 0;
             try {
                 Cliente cliente = new Cliente();
@@ -261,7 +261,7 @@ public class frmCliente {
     private EventHandler buscarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                ICliente sqlCliente = new impCliente();
+                ICliente sqlCliente = new ClienteImp();
                 Cliente cliente = sqlCliente.obtener(tfCedula.getText());
                 tfApellido.setText(cliente.getApellidos());
                 tfNombre.setText(cliente.getNombres());
@@ -276,7 +276,7 @@ public class frmCliente {
     private EventHandler modificarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                ICliente sqlCliente = new impCliente();
+                ICliente sqlCliente = new ClienteImp();
                 Cliente cliente = new Cliente();
                 cliente.setApellidos(tfApellido.getText());
                 cliente.setCedula(tfCedula.getText());
@@ -295,7 +295,7 @@ public class frmCliente {
     private EventHandler eliminarActionListener() {
         EventHandler handler = (t) -> {
             try {
-                ICliente sqlCliente = new impCliente();
+                ICliente sqlCliente = new ClienteImp();
                 Cliente cliente = new Cliente();
                 cliente.setApellidos(tfApellido.getText());
                 cliente.setCedula(tfCedula.getText());

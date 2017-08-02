@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class impEmpleado implements IEmpleado{
+public class EmpleadoImp implements IEmpleado{
     
     @Override
     public int insertar(Empleado empleado) throws Exception {

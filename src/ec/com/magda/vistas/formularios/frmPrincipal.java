@@ -6,16 +6,15 @@
 package ec.com.magda.vistas.formularios;
 
 import ec.com.magda.dao.contrato.IFactura;
-import ec.com.magda.dao.impl.impFactura;
-import ec.com.magda.rnegocio.entidades.Empleado;
+import ec.com.magda.dao.impl.FacturaImp;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +25,7 @@ import javafx.stage.Stage;
  *
  * @author acer1
  */
-public class frmPrincipal extends Application {
+public class frmPrincipal {
 
     private static String cedulaEmpleado;
     static AnchorPane root;
@@ -37,13 +36,15 @@ public class frmPrincipal extends Application {
     private static frmFactura factura;
     private static frmCategoria categoria;
     private static frmProducto producto;
+    private static Stage stage;
 
-    public void setCedulaEmpleado(String aCedulaEmpleado) {
-        cedulaEmpleado = aCedulaEmpleado;
+
+
+    public void setCedulaEmpleado(String CedulaEmpleado) {
+        cedulaEmpleado = CedulaEmpleado;
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
+    public void start() throws Exception {
         cliente = new frmCliente();
         empleado = new frmEmpleado();
         factura = new frmFactura();
@@ -65,9 +66,10 @@ public class frmPrincipal extends Application {
         root.getChildren().add(contenedor);
         Scene scene = new Scene(root, 1000, 650);
         scene.getStylesheets().addAll(this.getClass().getResource("estilos/Principal.css").toExternalForm());
+        stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Magda");
-        stage.getIcons().add(new Image(getClass().getResource("../imagenes/Icono.png").toExternalForm()));
+        //stage.getIcons().add(new Image(getClass().getResource("../imagenes/Icono.png").toExternalForm()));
         stage.show();
     }
 
@@ -125,8 +127,10 @@ public class frmPrincipal extends Application {
             btnFactura.setOnAction(btnfacturaActionListener());
             Button btnCategoria = new Button("Categoría");
             btnCategoria.setOnAction(btnCategoriaActionListener());
+            Button btnReportes = new Button("Reportes");
+            btnReportes.setOnAction(btnReportesActionListener());
             panel.getStyleClass().add("panel_izquierdo");
-            panel.getChildren().addAll(btnCategoria, btnCliente, btnEmpleado, btnFactura, btnProducto);
+            panel.getChildren().addAll(btnCategoria, btnCliente, btnEmpleado, btnFactura, btnProducto,btnReportes);
         }
         return panel;
     }
@@ -155,7 +159,7 @@ public class frmPrincipal extends Application {
 
     public static EventHandler btnfacturaActionListener() {
         EventHandler handler = (t) -> {
-            IFactura sqlFactura = new impFactura();
+            IFactura sqlFactura = new FacturaImp();
             factura.formFacturacion(contenedor);
             factura.setEmpleado(cedulaEmpleado);
             try {
@@ -184,5 +188,11 @@ public class frmPrincipal extends Application {
         };
         return handler;
     }
-
+    private static EventHandler<ActionEvent> btnReportesActionListener() {
+        EventHandler handler = (t) -> {
+            frmReportes reportes = new frmReportes();
+            reportes.formInsertar(root);
+        };
+        return handler;
+    }
 }

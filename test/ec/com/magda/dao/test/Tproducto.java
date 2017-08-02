@@ -6,7 +6,7 @@
 package ec.com.magda.dao.test;
 
 import ec.com.magda.dao.contrato.IProducto;
-import ec.com.magda.dao.impl.impProducto;
+import ec.com.magda.dao.impl.ProductoImp;
 import ec.com.magda.rnegocio.entidades.Categoria;
 import ec.com.magda.rnegocio.entidades.Producto;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class Tproducto {
     //
     @Test
     public void test() {
-        IProducto sqlproducto = new impProducto();
+        IProducto sqlproducto = new ProductoImp();
         Producto producto = new Producto(1000,"Falda", 25, 17,new Categoria(1, ""));
 
 //INSERTAR

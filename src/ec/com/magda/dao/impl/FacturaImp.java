@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class impFactura implements IFactura {
+public class FacturaImp implements IFactura {
 
     @Override
     public int insertar(Factura factura) throws Exception {
@@ -77,8 +77,8 @@ public class impFactura implements IFactura {
     @Override
     public Factura obtener(int numero) throws Exception {
         Factura factura = null;
-        IEmpleado sqlEmpleado = new impEmpleado();
-        ICliente sqlCliente = new impCliente();
+        IEmpleado sqlEmpleado = new EmpleadoImp();
+        ICliente sqlCliente = new ClienteImp();
         String sql = "SELECT numero, cliente, empleado, fecha, total  FROM public.factura WHERE numero =?;";
         List<Parametro> prts = new ArrayList<>();
         prts.add(new Parametro(1, numero));
@@ -103,8 +103,8 @@ public class impFactura implements IFactura {
     @Override
     public List<Factura> obtener() throws Exception {
         List<Factura> lista = new ArrayList<>();
-        IEmpleado sqlEmpleado = new impEmpleado();
-        ICliente sqlCliente = new impCliente();
+        IEmpleado sqlEmpleado = new EmpleadoImp();
+        ICliente sqlCliente = new ClienteImp();
         String sql = "SELECT numero, cliente, empleado, fecha, total  FROM public.factura;";
         Conexion con = new Conexion();
         try {

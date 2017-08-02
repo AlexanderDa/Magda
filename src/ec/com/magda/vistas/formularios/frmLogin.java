@@ -9,8 +9,8 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import ec.com.magda.dao.contrato.IEmpleado;
 import ec.com.magda.dao.contrato.IFactura;
-import ec.com.magda.dao.impl.impEmpleado;
-import ec.com.magda.dao.impl.impFactura;
+import ec.com.magda.dao.impl.EmpleadoImp;
+import ec.com.magda.dao.impl.FacturaImp;
 import ec.com.magda.rnegocio.entidades.Empleado;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -38,7 +38,7 @@ public class frmLogin extends Application {
         AnchorPane root = new AnchorPane();
         {
             
-            JFXTextField txCedula = new JFXTextField("*********-*");
+            JFXTextField txCedula = new JFXTextField("060405974-4");
             txCedula.setPromptText("Número de cédula");
             txCedula.setLabelFloat(true);
             txCedula.setLayoutY(175);
@@ -69,16 +69,17 @@ public class frmLogin extends Application {
             root.getChildren().addAll(txCedula, ivCheck, cnrDilogo, btnLogin);
             
             btnLogin.setOnAction((t) -> {
-                IEmpleado sqleEmpleado = new impEmpleado();
+                IEmpleado sqleEmpleado = new EmpleadoImp();
                 
                 try {
                     Empleado empleado = sqleEmpleado.obtener(txCedula.getText());
                     System.out.println("Inicio de sesión: " + empleado.getApellidos() + " " + empleado.getNombres());
-                    IFactura sqlFactura = new impFactura();                    
-                    frmPrincipal principal = new frmPrincipal();
+                    IFactura sqlFactura = new FacturaImp();                    
+                      
+                    
+                    frmPrincipal principal  = new frmPrincipal();
                     principal.setCedulaEmpleado(empleado.getCedula());
-                    Stage stage = new Stage();
-                    principal.start(stage);
+                    principal.start();
                     primaryStage.close();
                 } catch (Exception e) {
                     System.err.println("No exite el empleado, número de intento:  " + Intentos);

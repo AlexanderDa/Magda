@@ -10,11 +10,11 @@ import ec.com.magda.dao.contrato.IDetalle;
 import ec.com.magda.dao.contrato.IEmpleado;
 import ec.com.magda.dao.contrato.IFactura;
 import ec.com.magda.dao.contrato.IProducto;
-import ec.com.magda.dao.impl.impCliente;
-import ec.com.magda.dao.impl.impDetalle;
-import ec.com.magda.dao.impl.impEmpleado;
-import ec.com.magda.dao.impl.impFactura;
-import ec.com.magda.dao.impl.impProducto;
+import ec.com.magda.dao.impl.ClienteImp;
+import ec.com.magda.dao.impl.DetalleImp;
+import ec.com.magda.dao.impl.EmpleadoImp;
+import ec.com.magda.dao.impl.FacturaImp;
+import ec.com.magda.dao.impl.ProductoImp;
 import ec.com.magda.rnegocio.entidades.Detalle;
 //import ec.com.magda.vistas.Detalle;
 //import ec.com.magda.vistas.Producto;
@@ -43,11 +43,11 @@ public class TDetalle {
     @Test
     public void hello() {
 
-        IFactura sqlFactura = new impFactura();
-        ICliente sqlCliente = new impCliente();
-        IEmpleado sqlEmpleado = new impEmpleado();
-        IProducto sqlProducto = new impProducto();
-        IDetalle sqlDetalle = new impDetalle();
+        IFactura sqlFactura = new FacturaImp();
+        ICliente sqlCliente = new ClienteImp();
+        IEmpleado sqlEmpleado = new EmpleadoImp();
+        IProducto sqlProducto = new ProductoImp();
+        IDetalle sqlDetalle = new DetalleImp();
 //INSERTAR
         int insertado = 0;
         try {

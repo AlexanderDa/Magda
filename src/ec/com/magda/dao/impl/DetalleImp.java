@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author alexander
  */
-public class impDetalle implements IDetalle {
+public class DetalleImp implements IDetalle {
 
     @Override
     public int insertar(Detalle detalle) throws Exception {
@@ -76,8 +76,8 @@ public class impDetalle implements IDetalle {
     @Override
     public Detalle obtener(int factura, int producto) throws Exception {
         Detalle detalle = null;
-        IFactura sqlFactura = new impFactura();
-        IProducto sqlProducto = new impProducto();
+        IFactura sqlFactura = new FacturaImp();
+        IProducto sqlProducto = new ProductoImp();
         String sql = "SELECT factura, producto, cantidad  FROM public.detalle WHERE factura =? and producto = ?;";
         List<Parametro> prts = new ArrayList<>();
         prts.add(new Parametro(1, factura));
@@ -101,8 +101,8 @@ public class impDetalle implements IDetalle {
     @Override
     public List<Detalle> obtener() throws Exception {
         List<Detalle> lista = new ArrayList<>();
-        IFactura sqlFactura = new impFactura();
-        IProducto sqlProducto = new impProducto();
+        IFactura sqlFactura = new FacturaImp();
+        IProducto sqlProducto = new ProductoImp();
         String sql = "SELECT factura, producto, cantidad  FROM public.detalle;";
         Conexion con = new Conexion();
         try {
